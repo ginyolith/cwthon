@@ -67,7 +67,7 @@ class cwReq:
             target = self.__endPoint.value['url'],
             params = self.__params)
         return cwthonBase.baseUrl + path
-    
+
 class cwRes:
     def __init__(self, res):
         self.__res = res
