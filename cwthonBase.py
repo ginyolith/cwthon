@@ -5,11 +5,10 @@ import json
 import cwthonUtil
 from types import *
 from xml.etree import ElementTree
+import os
 
-settings = ElementTree.parse("settings.xml").getroot()
-token = settings.find("token").text
-baseUrl = settings.find("baseUrl").text
-reqHdr = {'X-ChatWorkToken': token}
+baseUrl = "https://api.chatwork.com/v2/"
+reqHdr = {'X-ChatWorkToken': os.getenv('CW_TOKEN', "")}
 
 def updateCountctListCache():
     apiUrl = baseUrl + 'contacts'
@@ -22,4 +21,3 @@ def updateRoomListCache():
     res = requests.get(url=apiUrl, headers=reqHdr)
     beforeParse = json.loads(res.text)
     return cwthonUtil.listToDict(beforeParse, keyColumn='room_id')
-    
