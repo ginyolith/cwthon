@@ -18,35 +18,36 @@ export CW_TOKEN=<Your ChatWork Api Token>
 ```Python
 from cwthon import chatwork
 
-#コンタクト情報をDict形式で取得する。
-#キー：account_id、バリュー：各コンタクトの情報　という形式になっています。
+#コンタクト情報をDict形式で取得します。。
+#キー：account_id、バリュー：各コンタクトの情報　の形式です。
 chatwork.contactDict
 
-#account_idをキーに、一意に紐づくコンタクト情報を取得する
-chatwork.getContactInfo()
-
-#ルーム情報をDict形式で取得する。
-#キー：room_id、バリュー：各ルームの情報　という形式になっています。
+#ルーム情報をDict形式で取得します。
+#キー：room_id、バリュー：各ルームの情報　の形式です。
 chatwork.roomDict
 
-#account_idをキーに、一意に紐づくコンタクト情報を取得する
-chatwork.getRoomInfo()
-
-
-#リクエスト送信用インスタンスを生成
+#リクエスト送信用インスタンスを生成します。
 cwReq = chatwork.cwReq()
 
-#account_idを指定してメッセージを送る場合
+#account_idを指定してメッセージを送る場合…
 target_account_id = "10xxx231"
 msg_account_id    = "test message for account"
 cwReq.sendMsgToAccount(account_id=target_account_id, msg=msg_account_id)
 
-#room_idを指定してメッセージを送る場合
+#account_idをキーに、一意に紐づくコンタクト情報を取得する場合…
+contactInfo = chatwork.getContactInfo(account_id=target_account_id)
+target_name = contactInfo.get('name') #dict型
+
+#room_idを指定してメッセージを送る場合…
 target_room_id = "232xxxx093"
 msg_room_id    = "test message for room"
 cwReq.sendMsgToAccount(room_id=target_room_id, msg=msg_room_id)
 
-#sendMsg~メソッドは、戻り値としてAPIのレスポンス情報がか格納されたcwReqインスタンスを返す
+#room_idをキーに、一意に紐づくルーム情報を取得する場合…
+roomInfo = chatwork.getRoomInfo(room_id=target_room_id)
+target_name = roomInfo.get('name') #dict型
+
+#sendMsg~メソッドは、戻り値としてAPIのレスポンス情報がか格納されたcwReqインスタンスを返します
 cwReq = cwReq.sendMsgToAccount(room_id=target_room_id, msg=msg_room_id)
 res = cwReq.res
 
