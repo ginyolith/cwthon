@@ -1,23 +1,22 @@
 # -*- coding: utf-8 -*-
+import json
+import os
 import logging
 import requests
-import json
-import cwthonUtil
-from types import *
-from xml.etree import ElementTree
-import os
+import _util
+from chatwork_prop import *
 
 baseUrl = "https://api.chatwork.com/v2/"
 reqHdr = {'X-ChatWorkToken': os.getenv('CW_TOKEN', "")}
 
-def updateCountctListCache():
+def updateContactDictCache() -> dict:
     apiUrl = baseUrl + 'contacts'
     res = requests.get(url=apiUrl, headers=reqHdr)
     beforeParse = json.loads(res.text)
-    return cwthonUtil.listToDict(beforeParse, keyColumn='account_id')
+    return _util.listToDict(beforeParse, keyColumn='account_id')
 
-def updateRoomListCache():
+def updateRoomDictCache() -> dict:
     apiUrl = baseUrl + 'rooms'
     res = requests.get(url=apiUrl, headers=reqHdr)
     beforeParse = json.loads(res.text)
-    return cwthonUtil.listToDict(beforeParse, keyColumn='room_id')
+    return _util.listToDict(beforeParse, keyColumn='room_id')

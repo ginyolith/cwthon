@@ -1,12 +1,12 @@
-import cwthon
-import cwthonBase
 import json
 import requests
+import chatwork
+import _base
 
 if __name__ == '__main__':
     res = requests.get(
         url='https://api.chatwork.com/v2/me',
-        headers=cwthonBase.reqHdr)
+        headers=_base.reqHdr)
     print(res.text)
     myData = json.loads(res.text)
 
@@ -18,6 +18,6 @@ if __name__ == '__main__':
     print("account_id[" + str(account_id) + "]")
     print("room_id[" + str(room_id) + "]")
 
-    cwReq = cwthon.cwReq()
-    # cwReq.sendMsgToAccount(account_id=account_id, msg=msgAc)
-    # cwReq.sendMsgToRoom(room_id=room_id, msg=msgRo)
+    cwReq = chatwork.cwReq()
+    #cwReq.sendMsgToAccount(account_id=account_id, msg=msgAc)
+    cwReq.sendMsgToRoom(room_id=room_id, msg=msgRo)

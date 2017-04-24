@@ -1,41 +1,41 @@
 # -*- coding: utf-8 -*-
 import logging
-import cwthonUtil
 import requests
-from cwthonProp import *
-import cwthonBase
+import _util
+import _base
+from chatwork_prop import *
 
-contactList = cwthonBase.updateCountctListCache()
-roomList = cwthonBase.updateRoomListCache()
+contactDict = _base.updateContactDictCache()
+roomDict = _base.updateRoomDictCache()
 
-def getContactInfo(account_id):
-    contactInfo = contactList.get(int(account_id))
+def getContactInfo(account_id : int) -> dict:
+    contactInfo = contactDict.get(int(account_id))
     if contactInfo is None :
-        contactList.update(cwthonBase.updateCountctListCache())
-        contactInfo = contactList.get(int(account_id))
+        contactDict.update(_base.updateContactDictCache())
+        contactInfo = contactDict.get(int(account_id))
     return contactInfo
 
-def getRoomInfo(room_id) :
-    roomInfo = roomList.get(int(room_id))
+def getRoomInfo(room_id : int) -> dict:
+    roomInfo = roomDict.get(int(room_id))
     if roomInfo is None :
-        roomList.update(cwthonBase.updateRoomListCache())
-        roomInfo = roomList.get(int(room_id))
+        roomDict.update(_base.updateRoomDictCache())
+        roomInfo = roomDict.get(int(room_id))
     return roomInfo
 
 class cwReq(object):
     __endPoint = None
     __params = None
-    def sendMsgToAccount(self, account_id, msg):
+    def sendMsgToAccount(self, account_id : int, msg : str):
         self.__endPoint = cwEndPoint.SEND_MSG
         self.__params = getContactInfo(account_id)
         self.__params.update({'body' : msg})
-        self.__send()
+        return self.__send()
 
-    def sendMsgToRoom(self, room_id, msg):
+    def sendMsgToRoom(self, room_id : int, msg : str):
         self.__endPoint = cwEndPoint.SEND_MSG
         self.__params = getRoomInfo(room_id)
         self.__params.update({'body' : msg})
-        self.__send()
+        return self.__send()
 
     def __send(self):
         method = self.__endPoint.value['method']
@@ -50,7 +50,7 @@ class cwReq(object):
         if method is reqMethods.POST:
             res = requests.post(
                 url=endPointUrl,
-                headers=cwthonBase.reqHdr,
+                headers=_base.reqHdr,
                 data={'body' : self.__params['body']}
                 )
         elif method is reqMethods.GET:
@@ -60,12 +60,12 @@ class cwReq(object):
 
         return cwRes(res)
 
-    def __getEndPointUrl(self):
-        path = cwthonUtil.replaceParam(
+    def __getEndPointUrl(self) -> str:
+        path = _util.replaceParam(
             target = self.__endPoint.value['url'],
             params = self.__params)
-        return cwthonBase.baseUrl + path
+        return _base.baseUrl + path
 
 class cwRes:
     def __init__(self, res):
-        self.__res = res
+        self.res = res
