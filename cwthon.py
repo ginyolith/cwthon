@@ -1,30 +1,28 @@
 # -*- coding: utf-8 -*-
 import logging
-import requests
-import json
-import cwthonBase
 import cwthonUtil
+import requests
 from cwthonProp import *
-from types import *
+import cwthonBase
 
 contactList = cwthonBase.updateCountctListCache()
 roomList = cwthonBase.updateRoomListCache()
 
 def getContactInfo(account_id):
-    contactInfo = contactList.get(account_id)
+    contactInfo = contactList.get(int(account_id))
     if contactInfo is None :
         contactList.update(cwthonBase.updateCountctListCache())
-        contactInfo = contactList.get(account_id)
-    return contactInfo;
+        contactInfo = contactList.get(int(account_id))
+    return contactInfo
 
 def getRoomInfo(room_id) :
-    roomInfo = roomList.get(room_id)
+    roomInfo = roomList.get(int(room_id))
     if roomInfo is None :
         roomList.update(cwthonBase.updateRoomListCache())
-        roomInfo = roomList.get(room_id)
-    return roomInfo;
+        roomInfo = roomList.get(int(room_id))
+    return roomInfo
 
-class cwReq:
+class cwReq(object):
     __endPoint = None
     __params = None
     def sendMsgToAccount(self, account_id, msg):
