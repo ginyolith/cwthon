@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
 import os
-import logging
 import requests
-import _util
-from chatwork_prop import *
+from cwthon import  _util
 
 baseUrl = "https://api.chatwork.com/v2/"
 reqHdr = {'X-ChatWorkToken': os.getenv('CW_TOKEN', "")}

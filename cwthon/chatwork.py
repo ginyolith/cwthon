@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
 import requests
-import _util
-import _base
-from chatwork_prop import *
+from cwthon import _util, _base
+from cwthon.chatwork_prop import *
 
 contactDict = _base.updateContactDictCache()
 roomDict = _base.updateRoomDictCache()

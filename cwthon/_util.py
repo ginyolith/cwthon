@@ -1,15 +1,4 @@
 # -*- coding: utf-8 -*-
-from types import *
-
-def getStr(target) -> str:
-    targetType = type(target)
-    if targetType is UnicodeType:
-        return target.encode('utf-8')
-    elif targetType is StringType:
-        return target
-    elif targetType is IntType:
-        return str(target)
-
 def listToDict(list : list , keyColumn : str) -> dict:
     parsed = dict()
     for item in list :
