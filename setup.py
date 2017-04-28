@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='cwthon',
     description="A Python wrapper of KDDI's ChatWork API",
-    version='0.1.2.1',
+    version='0.1.3.1',
     license='MIT',
     classifiers=[
         # How mature is this project? Common values are
