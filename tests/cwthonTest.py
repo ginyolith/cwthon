@@ -1,14 +1,16 @@
 import json
 import requests
-import chatwork
-import _base
+import datetime
+from cwthon import chatwork, _base
 
 if __name__ == '__main__':
-    res = requests.get(
+    res : requests = requests.get(
         url='https://api.chatwork.com/v2/me',
         headers=_base.reqHdr)
     print(res.text)
-    myData = json.loads(res.text)
+    print(res.headers)
+    myData= json.loads(res.text)
+    print(datetime.datetime.fromtimestamp(int(res.headers.get('X-RateLimit-Reset'))))
 
     msgAc = 'test from account_id'
     account_id = myData['account_id']
@@ -20,4 +22,8 @@ if __name__ == '__main__':
 
     cwReq = chatwork.cwReq()
     #cwReq.sendMsgToAccount(account_id=account_id, msg=msgAc)
-    cwReq.sendMsgToRoom(room_id=room_id, msg=msgRo)
+    cwRes : chatwork.cwRes = cwReq.sendMsgToRoom(room_id=room_id, msg=msgRo)
+    print("limit = " + str(cwRes.limit))
+    print("isErr = " + str(cwRes.isErr))
+    print("remaining= " + str(cwRes.remaining))
+    print("reset = " + str(cwRes.reset))

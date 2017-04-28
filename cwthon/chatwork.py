@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
 import requests
+from requests import Response
+import datetime
 from cwthon import _util, _base
 from cwthon.chatwork_prop import *
 
@@ -56,7 +58,7 @@ class cwReq(object):
             logging.error('send GET req Not implemented')
         elif method is reqMethods.DELETE:
             logging.error('send DELTE req is Not implemented')
-
+        
         return cwRes(res)
 
     def __getEndPointUrl(self) -> str:
@@ -66,5 +68,16 @@ class cwReq(object):
         return _base.baseUrl + path
 
 class cwRes:
-    def __init__(self, res):
-        self.res = res
+    isErr = False
+    def __init__(self, res : Response):
+        self.res : Response = res
+        if res.status_code is not 200 :
+            self.isErr = True
+            return
+
+        self.limit : int = res.headers.get('X-RateLimit-Limit')
+        self.remaining : int = res.headers.get('X-RateLimit-Remaining')
+        self.reset : datetime = None
+        resetUnix = res.headers.get('X-RateLimit-Reset')
+        if resetUnix is not None :
+            self.reset = datetime.datetime.fromtimestamp(int(resetUnix))
