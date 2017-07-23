@@ -14,9 +14,9 @@ pip install cwthon
 export CW_TOKEN=<Your ChatWork Api Token>
 ```
 
-3. コードでの使い方
-```Python
-from cwthon import chatwork
+3. コーディングにおける使い方
+```python
+from cwthon import chatwork, chatwork_prop
 
 #コンタクト情報をDict形式で取得します。。
 #キー：account_id、バリュー：各コンタクトの情報　の形式です。
@@ -47,12 +47,16 @@ cwReq.sendMsgToAccount(room_id=target_room_id, msg=msg_room_id)
 roomInfo = chatwork.getRoomInfo(room_id=target_room_id)
 target_name = roomInfo.get('name') #dict型
 
-#sendMsg~メソッドは、戻り値としてAPIのレスポンス情報がか格納されたcwReqインスタンスを返します
-cwReq = cwReq.sendMsgToAccount(room_id=target_room_id, msg=msg_room_id)
-res = cwReq.res
+#sendMsg~メソッドは、戻り値としてAPIのレスポンス情報が格納されたcwResインスタンスを返します
+cwRes = cwReq.sendMsgToAccount(room_id=target_room_id, msg=msg_room_id)
+
+#cwResクラスは、API通信制限など各種情報を保持しています。
+cwRes.limit #5分間のリクエスト制限回数。
+cwRes.isErr #レスポンスのステータスコードが200以外の場合、Trueを返す
+cwRes.remaining #リクエストの残り回数
+cwRes.reset #次にリクエスト回数カウントが解除される時刻
 
 #cwGrammerクラスからは、チャットワーク用の文法をEnum形式で取得可能です
-from chatwork_prop import cwGrammar
 class cwGrammar(Enum) :
     TO = '[To:{account_id}]'
     QUOTE_TIME = '[qt][qtmeta aid={account_id} time={timestamp}]{body}[/qt]'
@@ -62,8 +66,5 @@ class cwGrammar(Enum) :
     RULE = '[hr]'
     PICON = '[picon:{account_id}]'
     PICON_NAME = '[piconname:{account_id}]'
-```
 
-## 今後実装予定の機能
-- cwResクラスのwrapper化
-   - 残リクエスト数等を簡単に取得できるように変更する。
+```
