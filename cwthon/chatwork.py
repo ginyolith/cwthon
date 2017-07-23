@@ -10,6 +10,13 @@ contactDict = _base.updateContactDictCache()
 roomDict = _base.updateRoomDictCache()
 
 def getContactInfo(account_id : int) -> dict:
+    '''
+    コンタクト情報を取得する。
+    キャッシュ上に引数のアカウントIDのコンタクト情報が存在しない場合、APIから再取得を行う。
+    アカウントIDのコンタクト情報が存在しない場合、Noneを返す
+    :param account_id: チャットワークのアカウントID
+    :return: アカウント情報
+    '''
     contactInfo = contactDict.get(int(account_id))
     if contactInfo is None :
         contactDict.update(_base.updateContactDictCache())
@@ -17,6 +24,13 @@ def getContactInfo(account_id : int) -> dict:
     return contactInfo
 
 def getRoomInfo(room_id : int) -> dict:
+    '''
+    チャットルーム情報を取得する。
+    キャッシュ上に引数のアカウントIDのチャットルーム情報が存在しない場合、APIから再読込を行う。
+    ルームIDに紐づくチャットルームが存在しない場合、Noneを返す
+    :param room_id: チャットルームID
+    :return: チャットルーム情報
+    '''
     roomInfo = roomDict.get(int(room_id))
     if roomInfo is None :
         roomDict.update(_base.updateRoomDictCache())
@@ -24,6 +38,9 @@ def getRoomInfo(room_id : int) -> dict:
     return roomInfo
 
 class cwReq(object):
+    '''
+    メッセージ送信を行うクラス。
+    '''
     __endPoint = None
     __params = None
     def sendMsgToAccount(self, account_id : int, msg : str):
@@ -68,6 +85,9 @@ class cwReq(object):
         return _base.baseUrl + path
 
 class cwRes:
+    '''
+    APIにリクエスト送信後の、レスポンス情報を格納するクラス。
+    '''
     isErr = False
     def __init__(self, res : Response):
         self.res : Response = res
