@@ -2,7 +2,10 @@
 import json
 import os
 import requests
-from cwthon import  _util
+from cwthon import  _util, _err
+
+if not os.getenv('CW_TOKEN'):
+    raise _err.CwthonError("Could not get Environment variable $CW_TOKEN")
 
 baseUrl = "https://api.chatwork.com/v2/"
 reqHdr = {'X-ChatWorkToken': os.getenv('CW_TOKEN', "")}
