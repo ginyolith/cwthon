@@ -41,7 +41,7 @@ target_name = contactInfo.get('name') #dict型
 #room_idを指定してメッセージを送る場合…
 target_room_id = "232xxxx093"
 msg_room_id    = "test message for room"
-cwReq.sendMsgToAccount(room_id=target_room_id, msg=msg_room_id)
+cwReq.sendMsgToRoom(room_id=target_room_id, msg=msg_room_id)
 
 #room_idをキーに、一意に紐づくルーム情報を取得する場合…
 roomInfo = chatwork.getRoomInfo(room_id=target_room_id)
